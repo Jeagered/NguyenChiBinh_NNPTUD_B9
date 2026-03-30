@@ -11,7 +11,6 @@ const authRoute = require('./routes/authRoute');
 
 const app = express();
 
-// Middleware
 app.use((req, res, next) => {
   res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
   res.setHeader("Cross-Origin-Embedder-Policy", "unsafe-none");
@@ -35,7 +34,7 @@ mongoose.connect(process.env.MONGODB_URL, {
   serverSelectionTimeoutMS: 5000
 })
 .then(() => {
-  console.log('✅Connected to MongoDB');
+  console.log('Connected to MongoDB');
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

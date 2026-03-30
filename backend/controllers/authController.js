@@ -10,10 +10,10 @@ exports.registerByEmail = async (req, res) => {
 
     const existsEmail = await User.findOne({ email });
     if (existsEmail)
-      return res.status(400).json({ message: "Email đã tồn tại" });
+      return res.status(400).json({ message: "Email đã được sử dụng!" });
 
     if (password.length < 6) {
-      return res.status(400).json({ message: "Mật khẩu phải ít nhất 6 kí tự" });
+      return res.status(400).json({ message: "Mật khẩu phải ít nhất 6 kí tự!" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -23,7 +23,7 @@ exports.registerByEmail = async (req, res) => {
       role: "user",
     });
 
-    res.status(201).json({ message: "Đăng ký thành công", userId: newUser._id });
+    res.status(201).json({ message: "Đăng ký thành công!", userId: newUser._id });
   } catch (err) {
     res.status(500).json({ err: err.message });
   }
@@ -32,14 +32,14 @@ exports.loginByEmail = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(400).json({ message: 'Cần nhập email và mật khẩu' });
+      return res.status(400).json({ message: 'Cần nhập email và mật khẩu!' });
     }
 
     const existUser = await User.findOne({ email });
-    if (!existUser) return res.status(400).json({ message: 'Email chưa đăng ký' });
+    if (!existUser) return res.status(400).json({ message: 'Email chưa được đăng ký! '});
 
     const checkPassword = await bcrypt.compare(password, existUser.password);
-    if (!checkPassword) return res.status(400).json({ message: 'Mật khẩu không đúng' });
+    if (!checkPassword) return res.status(400).json({ message: 'Mật khẩu không đúng!' });
 
     const token = jwt.sign(
       { id: existUser._id, role: existUser.role },
